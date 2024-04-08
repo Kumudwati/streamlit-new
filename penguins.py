@@ -9,14 +9,16 @@ selected_x_var = st.selectbox("What do you want the x variable to be?",["bill_le
 selected_y_var = st.selectbox("What about the y?",["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"],)
 selected_gender = st.selectbox("What gender do you want to filter for?", ['all penguins', 'male penguins', 'female penguins'])
 #File uploader - if no file uploaded use default file - if uploaded use their file
-penguins_file = st.file_uploader("Select Your Local Penguins CSV (default provided)")
-def load_file(penguins_file):
-    time.sleep(3)
-    if penguins_file is not None:
-        df = pd.read_csv(penguins_file)
+@st.cache_data()
+def load_file(penguin_file):
+    time.sleep(5)
+    if penguin_file is not None:
+        penguins_df = pd.read_csv(penguin_file)
     else:
-        df = pd.read_csv('penguins.csv')
-    return(df)
+        penguins_df = pd.read_csv('penguins.csv')
+    return(penguins_df)
+
+penguins_df = load_file(penguin_file)
 penguins_df = load_file(penguins_file)
 #penguin gender filter app
 if selected_gender == "male penguins":
